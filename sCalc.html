@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Calculator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+        .rubik-type {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 450;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Rubik, sans-serif;
+            background-color: #fffbf8;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            color: #cb7c22;
+            text-align: center;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #555;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1.5px solid #f0e2d1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 30px;
+            margin-bottom: 30px;
+        }
+
+
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            margin-top: 4px;
+            font-size: 15px;
+            background-color: #fff;
+        }
+
+        input[readonly] {
+            background-color: #f6e8d8;
+            cursor: not-allowed;
+            font-weight: 500;
+        }
+
+        button {
+            grid-column: 1 / -1;
+            justify-self: start;
+            background: linear-gradient(135deg, #cb7c22, #c76503);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(203, 124, 34, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(203, 124, 34, 0.4);
+            background: linear-gradient(135deg, #c76503, #cb7c22);
+        }
+
+        .results-container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1.5px solid #f0e2d1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 30px;
+        }
+
+        .results-container label {
+            margin-top: 10px;
+        }
+
+        .results-container input {
+            font-weight: 500;
+            background-color: #fff9f3;
+        }
+
+        h2 {
+            text-align: center;
+            color: #cb7c22;
+            margin-bottom: 15px;
+        }
+
+        .savings-text {
+            background-color: #fff9f3;
+            border: 1.5px solid #f0e2d1;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.4;
+            margin-top: 5px;
+            word-wrap: break-word;
+            min-height: 45px;
+        }
+
+        @media(max-width: 600px){
+            form, .results-container{
+                grid-template-columns: 1fr;
+                padding : 20px;
+            }
+           
+            button {
+                justify-self: center;
+                width: 100%;
+            }
+
+            body {
+                padding : 20px 10px;
+
+            }
+
+            h1 {
+                font-size: 1.8rem;
+
+            }
+
+            p {
+                font-size: 0.95rem;
+            }
+            
+        }
+
+
+        
+    </style>
+</head>
+
+<body>
+    <h1>Solar Calculator</h1>
+    <p>Estimate your Solar setup specifications and cost</p>
+
+    <form id="solar-form">
+        <div>
+            <label for="bill">Average monthly electricity bill (₹):</label>
+            <input type="number" id="bill" placeholder="Enter amount">
+        </div>
+
+        <div>
+            <label for="rate">Cost per unit (₹/kWh):</label>
+            <input type="number" id="rate" value="8" step="0.1">
+        </div>
+
+        <div>
+            <label for="sunlight">Average sunlight hours per day:</label>
+            <input type="number" id="sunlight" step="0.1" placeholder="e.g. 5.5">
+        </div>
+
+        <div>
+            <label for="cost">Cost per watt (₹):</label>
+            <input type="number" id="cost" value="55">
+        </div>
+
+        <div>
+            <label for="wattage">Panel Wattage (W):</label>
+            <input type="number" id="wattage" value="350">
+        </div>
+
+        <button type="button" id="calculate-btn">Calculate</button>
+    </form>
+
+    
+
+    <h2>Results:</h2>
+    <div class="results-container">
+        <div>
+            <label for="system-size">Estimated system size (kW): </label>
+            <input type="text" id="system-size" readonly>
+        </div>
+        <div>
+            <label for="num-panels">Approximate number of panels:</label>
+            <input type="text" id="num-panels" readonly>
+        </div>
+        <div>
+            <label for="total-cost">Estimated total system cost (₹): </label>
+            <input type="text" id="total-cost" readonly>
+        </div>
+        <div>
+            <label for="savings-line">Monthly savings estimate:</label>
+            <p id="savings-line" class="savings-text"></p>
+        </div>
+    </div>
+
+    <script>
+
+        const calculateBtn = document.getElementById('calculate-btn');
+        const billInput = document.getElementById('bill');
+        const sunlightInput = document.getElementById('sunlight');
+        const costInput = document.getElementById('cost');
+        const wattageInput = document.getElementById('wattage');
+        const rateInput = document.getElementById('rate');
+
+        calculateBtn.addEventListener('click', calculateSolar);
+
+        function calculateSolar() {
+            const bill = parseFloat(billInput.value);
+            const sunlight = parseFloat(sunlightInput.value);
+            const costPerWatt = parseFloat(costInput.value);
+            const panelWattage = parseFloat(wattageInput.value);
+            const ratePerUnit = parseFloat(rateInput.value);
+
+            if (isNaN(bill) || isNaN(sunlight) || isNaN(costPerWatt) || isNaN(panelWattage)) {
+                alert("Please fill in all fields with valid numbers.");
+                return;
+            }
+
+            const dailyUsageKWh = bill / 30 / ratePerUnit;
+            const systemSizeKW = dailyUsageKWh / sunlight;
+            const numPanels = Math.ceil((systemSizeKW * 1000) / panelWattage);
+            const totalCost = systemSizeKW * 1000 * costPerWatt;
+            const monthlySavings = bill;
+
+            document.getElementById('system-size').value = systemSizeKW.toFixed(2) + " kW";
+            document.getElementById('num-panels').value = numPanels + " panels";
+            document.getElementById('total-cost').value = "₹" + totalCost.toLocaleString();
+            document.getElementById('savings-line').textContent = "A " + systemSizeKW.toFixed(1) + " kW system can save around ₹" + monthlySavings.toLocaleString() + " per month.";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
